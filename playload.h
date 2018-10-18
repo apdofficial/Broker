@@ -1,0 +1,14 @@
+//
+// Created by Andrej Pistek on 18/10/2018.
+//
+
+#ifndef ASSIGNMENT_5_MESSAGE_BROKER_PLAYLOAD_H
+#define ASSIGNMENT_5_MESSAGE_BROKER_PLAYLOAD_H
+
+
+class playload {
+
+};
+
+
+#endif //ASSIGNMENT_5_MESSAGE_BROKER_PLAYLOAD_H
