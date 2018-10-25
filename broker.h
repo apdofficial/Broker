@@ -5,9 +5,19 @@
 #ifndef ASSIGNMENT_5_MESSAGE_BROKER_BROKER_H
 #define ASSIGNMENT_5_MESSAGE_BROKER_BROKER_H
 
+#include "iostream"
+#include "map"
+#include "message.h"
 
 class broker {
+public:
+    explicit broker(MANAGEMENT::message message);
 
+private:
+    int counter {0};
+
+    std::map<MANAGEMENT::message,int> m_messages;
+    int post(const std::string &message);
 };
 
 
