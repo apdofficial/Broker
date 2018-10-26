@@ -73,4 +73,12 @@ namespace MAN {
     bool operator<(const MAN::message &lhs, const MAN::message &rhs) {
         return lhs.m_timestamp < rhs.m_timestamp;
     }
+
+    const std::string &message::getM_topic() const {
+        return m_topic;
+    }
+
+    long long int message::getM_timestamp() const {
+        return m_timestamp;
+    }
 }

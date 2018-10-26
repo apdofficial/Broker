@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "message.h"
 #include "broker.h"
 
@@ -34,5 +35,31 @@ int main() {
     br.post(m6);
 
 //this id can be used to obtain a message from the broker, but broker might also expose other information about a message:
-    std::cout << "Using ID obtained from broker: id= " << id_m2 << " message= " << br[id_m2];
+    std::cout << "Using ID obtained from broker: ID: " << id_m2 << "; message= " << br[id_m2];
+
+    //get listings of everything: this is just a list of messages, not full messages
+    auto listing = br.list("/*");
+
+// and print them, notice that lst is just a string and it's up to the broker
+// how strings in listings are composed.
+// My implementation contains only the unique message id and the topic of a listing entry
+    for (auto& lst : listing){
+        std::cout << lst << "\n";
+    }
+
+    // the extract function of the broker retrieves all the messages matching a topic.
+// Those messages are also removed from the broker.
+// Those are full messages being returned, like std::vector<message>
+    auto messages = br.extract("/reading/*");
+
+// let's print those messages that we got:
+    for (auto& message : messages){
+        std::cout << message << "\n";
+    }
+
+    messages = br.get("/*");
+    for (auto& message : messages) {
+        std::cout << message << "\n";
+    }
+
 }

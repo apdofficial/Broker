@@ -19,6 +19,8 @@ namespace MAN {
         long long int m_timestamp;
         std::string m_type;
     public:
+        const std::string &getM_topic() const;
+        long long int getM_timestamp() const;
         message(const std::string &topic,const std::string &description);
         message(const std::string &topic,const bool &flag);
         message(const std::string &topic,const double &value);

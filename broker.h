@@ -12,12 +12,14 @@
 class broker {
 public:
     broker() = default;
-    int post(MAN::message &message);
+    int post(const MAN::message &message);
     MAN::message operator[](int id_num)const;
+    std::vector<std::string> list(const std::string& request);
+    std::vector<std::string> extract(const std::string& request);
+    std::vector<std::string> get(const std::string& request)const;
 private:
     int counter {0};
     std::map<MAN::message,int> m_messages;
-
 };
 
 
