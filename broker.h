@@ -11,13 +11,13 @@
 
 class broker {
 public:
-    explicit broker(MANAGEMENT::message message);
-
+    broker() = default;
+    int post(MAN::message &message);
+    MAN::message operator[](int id_num)const;
 private:
     int counter {0};
+    std::map<MAN::message,int> m_messages;
 
-    std::map<MANAGEMENT::message,int> m_messages;
-    int post(const std::string &message);
 };
 
 

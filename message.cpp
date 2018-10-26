@@ -3,24 +3,74 @@
 //
 
 #include "message.h"
+#include <iomanip>
+#include <fstream>
+#include <sstream>
+#include <string>
 
-namespace MANAGEMENT {
+namespace MAN {
 
-    message::message(const std::string &topic, const std::string description):
+    message::message(const std::string &topic, const std::string &description):
     m_payload {description},
     m_topic{topic},
-    m_timestamp {std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())}
-    {}
+    m_type {"string"}
+    {
+        auto now = std::chrono::system_clock::now();
+        m_timestamp = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
+    }
 
-    message::message(const std::string &topic, const bool flag):
+    message::message(const std::string &topic, const bool &flag):
     m_payload {flag},
     m_topic{topic},
-    m_timestamp {std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())}
-    {}
+    m_type {"bool"}
+    {
+        auto now = std::chrono::system_clock::now();
+        m_timestamp = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
+    }
 
-    message::message(const std::string &topic, const double value):
+    message::message(const std::string &topic, const double &value):
     m_payload {value},
     m_topic{topic},
-    m_timestamp {std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())}
-    {}
+    m_type {"double"}
+    {
+        auto now = std::chrono::system_clock::now();
+        m_timestamp = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
+    }
+
+    std::ostream& operator<<(std::ostream &os,const MAN::message &message1) {
+        return os<<message1.m_timestamp<<" | "<<message1.m_topic<<" | "<<message1.convert_payload_to_json()<<"\n";
+    }
+
+    std::string message::convert_payload_to_json()const{
+        std::ostringstream output;
+            if(m_type == "string") {
+                output<<"{type: \"" << m_type << "\", data: "<< m_payload.getM_description()<<"}";
+            }
+            else if  (m_type == "bool"){
+                std::string flag;
+                if(m_payload.getM_flag()){
+                    flag.append("true");
+                } else{
+                    flag.append("false");
+                }
+                output<<"{type: \"" << m_type << "\", data: " <<flag<<"}";
+            }
+            else if (m_type == "double"){
+                output<<"{type: \"" << m_type << "\", data: " << m_payload.getM_value()<<"}";
+            }
+        return output.str();
+    }
+
+    message::message(const MAN::message& o) :
+    m_timestamp {o.m_timestamp},
+    m_topic {o.m_topic},
+    m_type {o.m_type},
+    m_payload {o.m_payload,o.m_type}
+    {
+
+    }
+
+    bool operator<(const MAN::message &lhs, const MAN::message &rhs) {
+        return lhs.m_timestamp < rhs.m_timestamp;
+    }
 }

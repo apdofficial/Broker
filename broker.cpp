@@ -3,11 +3,17 @@
 //
 
 #include "broker.h"
+#include "map"
 
-broker::broker(MANAGEMENT::message message) {
-    m_messages[message] = counter++;
+int broker::post(MAN::message &message) {
+    m_messages.insert({message, ++counter});
+    return counter;
 }
 
-int broker::post(const std::string &message) {
-    return 0;
+MAN::message broker::operator[](int id_num) const {
+    for(auto& [key,val]:m_messages){
+        if(val == id_num){
+            return key;
+        }
+    }
 }

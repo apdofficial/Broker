@@ -16,6 +16,10 @@ namespace DATA{
         explicit payload(const double &value);
         explicit payload(const bool &flag);
         explicit payload(const std::string &description);
+        payload(const DATA::payload &o, const std::string& type);
+        const double& getM_value() const;
+        const bool& getM_flag() const;
+        const std::string& getM_description() const;
 
     };
 }
