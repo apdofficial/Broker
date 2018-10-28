@@ -7,6 +7,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include "iostream"
 
 namespace MAN {
 
@@ -36,6 +37,16 @@ namespace MAN {
         auto now = std::chrono::system_clock::now();
         m_timestamp = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
     }
+    message::message(const std::string &topic,const char data[],const int& size):
+    m_payload {data, size},
+    m_topic{topic},
+    m_type {"data"}
+    {
+        auto now = std::chrono::system_clock::now();
+        m_timestamp = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
+
+    }
+
 
     std::ostream& operator<<(std::ostream &os,const MAN::message &message1) {
         return os<<message1.m_timestamp<<" | "<<message1.m_topic<<" | "<<message1.convert_payload_to_json()<<"\n";
@@ -58,6 +69,13 @@ namespace MAN {
             else if (m_type == "double"){
                 output<<"{type: \"" << m_type << "\", data: " << m_payload.getM_value()<<"}";
             }
+            else if (m_type == "data"){
+                output<<"{type: \"" << m_type << "\", data: ";
+                for (int i = 0; i < m_payload.getM_size(); ++i) {
+                    output<<"0x"<<(char32_t)m_payload.getM_data()[i]<<" ";
+                }
+                output<<"}";
+            }
         return output.str();
     }
 
@@ -67,7 +85,7 @@ namespace MAN {
     m_type {o.m_type},
     m_payload {o.m_payload,o.m_type}
     {
-
+       // m_payload  = o.m_payload;
     }
 
     bool operator<(const MAN::message &lhs, const MAN::message &rhs) {

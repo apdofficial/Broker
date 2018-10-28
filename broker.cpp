@@ -6,18 +6,21 @@
 #include <regex>
 #include "broker.h"
 #include "map"
+#include "iostream"
 
 int broker::post(const MAN::message &message) {
     m_messages.insert({message, ++counter});
+        std::cout<<message.convert_payload_to_json()<<"\n";
     return counter;
 }
 
-MAN::message broker::operator[](int id_num) const {
-    for(auto& [key,val]:m_messages){
-        if(val == id_num){
-            return key;
+MAN::message broker::operator[](int id_num) const{
+        for (auto&[key, val]:m_messages) {
+            if (val == id_num) {
+                return key;
+            }
         }
-    }
+        throw "no candidate was found under given ID";
 }
 
 std::vector<std::string> broker::list(const std::string &request){
@@ -39,7 +42,9 @@ std::vector<std::string> broker::extract(const std::string &request) {
         std::string temp1 {request.substr(0,request.size()-1)};
         for (auto&[key, val]:m_messages) {
             if(temp1 == key.getM_topic().substr(0,temp1.size())) {
-                result.push_back(std::to_string(key.getM_timestamp())+" | "+key.getM_topic()+" | "+key.convert_payload_to_json());
+                result.push_back(std::to_string(key.getM_timestamp())+" | "+
+                key.getM_topic()+" | "+
+                key.convert_payload_to_json());
             m_messages.erase(key);
             }
         }
@@ -49,13 +54,16 @@ std::vector<std::string> broker::extract(const std::string &request) {
 
 std::vector<std::string> broker::get(const std::string &request)const {
     std::vector<std::string> result = {};
-    if(request.find_last_of('*')){
-        std::string temp1 {request.substr(0,request.size()-1)};
+    std::string temp1;
+    if(request.find_last_of('*')) {
+        temp1.append(request.substr(0, request.size() - 1));
+    }
         for (auto&[key, val]:m_messages) {
             if(temp1 == key.getM_topic().substr(0,temp1.size())) {
-                result.push_back(std::to_string(key.getM_timestamp())+" | "+key.getM_topic()+" | "+key.convert_payload_to_json());
+                result.push_back(std::to_string(key.getM_timestamp())+" | "+
+                key.getM_topic()+" | "+
+                key.convert_payload_to_json());
             }
         }
-    }
     return result;
 }

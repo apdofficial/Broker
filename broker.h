@@ -8,7 +8,7 @@
 #include "iostream"
 #include "map"
 #include "message.h"
-
+#include "vector"
 class broker {
 public:
     broker() = default;
@@ -17,6 +17,8 @@ public:
     std::vector<std::string> list(const std::string& request);
     std::vector<std::string> extract(const std::string& request);
     std::vector<std::string> get(const std::string& request)const;
+    //std::vector<MAN::message>::iterator begin(std::string str)const;
+    //std::vector<MAN::message>::iterator end()const;
 private:
     int counter {0};
     std::map<MAN::message,int> m_messages;

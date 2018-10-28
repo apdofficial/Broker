@@ -2,7 +2,7 @@
 #include <vector>
 #include "message.h"
 #include "broker.h"
-
+#include <exception>
 int main() {
     // First create some messages. Two messages with boolean data
     MAN::message m1{"/status/health/sens1", true};
@@ -14,13 +14,14 @@ int main() {
     // One containing a string data
     MAN::message m6{"/status/diag/motor1/desc", "current too low"};
     // And one with arbitrary binary data
-//    char data[4]{4, 8, 16, 32};
-//    MAN::message m7{"/reading/value/imager", data, 4};
+    char data[5]{4, 8, 16, 32, 64};
+    MAN::message m7{"/reading/value/imager", data, 5};
 
     // I can directly print messages, because they overload operator<<, e.g.:
     std::cout << m1  << "\n";
     std::cout << m2  << "\n";
     std::cout << m6  << "\n";
+    std::cout << m7  << "\n";
 
 // create a broker instance
     broker br;
@@ -33,10 +34,14 @@ int main() {
     br.post(m4);
     br.post(m5);
     br.post(m6);
-
+    auto id_m7 = br.post(m7);
 //this id can be used to obtain a message from the broker, but broker might also expose other information about a message:
-    std::cout << "Using ID obtained from broker: ID: " << id_m2 << "; message= " << br[id_m2];
-
+    try {
+        std::cout << "Using ID obtained from broker: ID: " << id_m7 << " message= " << br[id_m7];
+    }
+    catch (char const* e){
+        std::cout<<e<<"\n";
+    }
     //get listings of everything: this is just a list of messages, not full messages
     auto listing = br.list("/*");
 
@@ -46,6 +51,7 @@ int main() {
     for (auto& lst : listing){
         std::cout << lst << "\n";
     }
+
 
     // the extract function of the broker retrieves all the messages matching a topic.
 // Those messages are also removed from the broker.
@@ -61,5 +67,4 @@ int main() {
     for (auto& message : messages) {
         std::cout << message << "\n";
     }
-
 }
