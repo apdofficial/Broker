@@ -7,9 +7,6 @@
 
 #include "iostream"
 #include "variant"
-#include <cstddef>
-#include <memory>
-#include <algorithm>
 namespace DATA {
     class payload {
     private:
@@ -17,33 +14,28 @@ namespace DATA {
         int m_size;
         std::unique_ptr<char[]> m_data;
     public:
-
-        payload(const char data[],const int& size);
-
-        explicit payload(const double &value);
-
-        explicit payload(const bool &flag);
-
-        explicit payload(const std::string &description);
-
+        /* copy ctor for all types */
         payload(const DATA::payload &o, const std::string &type);
 
-        const double getM_value() const;
+        /* ctors for individual types */
+        payload(const char data[],const int& size);
+        explicit payload(const double &value);
+        explicit payload(const bool &flag);
+        explicit payload(const std::string &description);
 
-        const bool getM_flag() const;
-
-        const std::string  getM_description() const;
-
-        const std::unique_ptr<char[]> &getM_data() const;
-
-        int getM_size() const;
-
+        /* overloaded copy  assignment operators */
         payload& operator=(const DATA::payload &o);
-
         payload& operator=(const char data[]);
 
+        /* destructor */
         ~payload();
 
+        /* getters */
+        const std::string&  get_description() const;
+        const std::unique_ptr<char[]>& get_data() const;
+        const int& get_size() const;
+        const double& get_value() const;
+        const bool& get_flag() const;
     };
 }
 
