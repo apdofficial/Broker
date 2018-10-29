@@ -1,7 +1,3 @@
-//
-// Created by Andrej Pistek on 18/10/2018.
-//
-
 #ifndef ASSIGNMENT_5_MESSAGE_BROKER_PLAYLOAD_H
 #define ASSIGNMENT_5_MESSAGE_BROKER_PLAYLOAD_H
 
@@ -17,16 +13,14 @@ namespace saxion {
             int size;
 
             blob(const char *values, int length) :
-            arr{std::make_unique<char[]>(static_cast<size_t>(length))},
-            size{length}
-            {
+                    arr{std::make_unique<char[]>(static_cast<size_t>(length))},
+                    size{length} {
                 std::copy(values, values + length, arr.get());
             }
 
             blob(const blob &other) :
-            arr{std::make_unique<char[]>(static_cast<size_t>(other.size))},
-            size{other.size}
-            {
+                    arr{std::make_unique<char[]>(static_cast<size_t>(other.size))},
+                    size{other.size} {
                 std::copy(other.arr.get(), other.arr.get() + size, arr.get());
             }
 
@@ -42,8 +36,6 @@ namespace saxion {
 
         std::variant<double, bool, std::string, blob> m_value;
     public:
-
-        /* ctors for individual types */
         explicit payload(const double &value);
 
         explicit payload(const bool &flag);
@@ -54,7 +46,6 @@ namespace saxion {
 
         payload(const char *data, int size);
 
-        /* getters */
         const std::string &get_description() const;
 
         const char *get_data() const;

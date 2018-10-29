@@ -1,12 +1,8 @@
-//
-// Created by Andrej Pistek on 18/10/2018.
-//
-
 #include <vector>
-#include <regex>
 #include "broker.h"
 #include "map"
 #include "iostream"
+
 namespace saxion {
     int broker::post(const sax::message &message) {
         m_messages.insert({++id, message});
@@ -17,7 +13,7 @@ namespace saxion {
         return m_messages.at(id);
     }
 
-    std::vector<std::string> broker::list(std::string request){
+    std::vector<std::string> broker::list(std::string request) {
         std::vector<std::string> result = {};
         bool wild = false;
         if (request.back() == '*') {
@@ -66,19 +62,18 @@ namespace saxion {
         return result;
     }
 
-//std::map<sax::message,int>::iterator broker::begin(std::string str){
-//    std::string temp1;
-//    if(str.find_last_of('*')) {
-//        temp1.append(str.substr(0, str.size() - 1));
-//    }
-//    for ( auto current = m_messages.begin(); current != m_messages.end(); ++current){
-//        if (temp1 == current.operator->()->first.topic().substr(0, temp1.size())) {
-//            return current;
-//        }
-//    }
-//}
-//
-//std::map<sax::message,int>::iterator broker::end(){
-//    return m_messages.end();
-//}
+    std::map<int, sax::message>::const_iterator broker::begin(std::string request) {
+        if (request.back() == '*') {
+            request = request.substr(0, request.length() - 1);
+        }
+        for ( auto current = m_messages.begin(); current != m_messages.end(); ++current){
+            if (request == current->second.topic().substr(0, request.size())) {
+                return current;
+            }
+        }
+    }
+
+    std::map<int, sax::message>::const_iterator broker::end() {
+        return m_messages.end();
+    }
 }

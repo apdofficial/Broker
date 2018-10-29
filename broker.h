@@ -1,15 +1,12 @@
-//
-// Created by Andrej Pistek on 18/10/2018.
-//
-
 #ifndef ASSIGNMENT_5_MESSAGE_BROKER_BROKER_H
 #define ASSIGNMENT_5_MESSAGE_BROKER_BROKER_H
 
-#include "iostream"
 #include "map"
 #include "message.h"
 #include "vector"
 #include <iterator>
+#include "iterator"
+
 namespace saxion {
     class broker {
     public:
@@ -25,10 +22,9 @@ namespace saxion {
 
         std::vector<sax::message> get(std::string request);
 
-        /* iterators */
-        std::map<sax::message, int>::iterator begin(std::string str);
+        std::map<int, sax::message>::const_iterator begin(std::string request);
 
-        std::map<sax::message, int>::iterator end();
+        std::map<int, sax::message>::const_iterator end();
 
     private:
         int id{0};
