@@ -9,7 +9,7 @@
 #include <string>
 #include "iostream"
 
-namespace MAN {
+namespace sax {
 
     message::message(const std::string &topic, const std::string& description):
     m_payload {description},
@@ -18,20 +18,16 @@ namespace MAN {
     m_timestamp {get_time()}
     {}
 
-
-
     message::message(const std::string &topic, std::string&& description):
     m_payload{std::move(description)},
     m_topic{topic},
     m_type {"string"},
     m_timestamp {get_time()}
-    {
-
-    }
+    {}
 
     message::message(const std::string &topic, const char* description):
-            message(topic, std::string(description))
-    { }
+    message(topic, std::string(description))
+    {}
 
     message::message(const std::string &topic, bool flag):
     m_payload {flag},
@@ -46,25 +42,26 @@ namespace MAN {
     m_type {"double"},
     m_timestamp {get_time()}
     {}
-    message::message(const std::string &topic, const char data[], int size):
+
+    message::message(const std::string &topic, const char *data, int size):
     m_payload {data, size},
     m_topic{topic},
     m_type {"data"},
     m_timestamp {get_time()}
     {}
 
-    std::ostream& operator<<(std::ostream& os,const MAN::message& message1) {
+    std::ostream& operator<<(std::ostream& os,const sax::message& message1) {
         return os<<message1.m_timestamp<<" | "<<message1.m_topic<<" | "<< message1.payload_to_json();
     }
 
-    message::message(const MAN::message& o) :
+    message::message(const sax::message& o) :
     m_timestamp {o.m_timestamp},
     m_topic {o.m_topic},
     m_type {o.m_type},
     m_payload {o.m_payload}
     {}
 
-    bool operator<(const MAN::message &lhs, const MAN::message& rhs) {
+    bool operator<(const sax::message &lhs, const sax::message& rhs) {
         return lhs.m_topic < rhs.m_topic;
     }
 
@@ -75,11 +72,8 @@ namespace MAN {
         }
         else if  (m_type == "bool"){
             std::string flag;
-            if(m_payload.get_flag()){
-                flag.append("true");
-            } else{
-                flag.append("false");
-            }
+            if(m_payload.get_flag()){ flag.append("true"); }
+            else{ flag.append("false"); }
             output<<"{type: \"" << m_type << "\", data: " <<flag<<"}";
         }
         else if (m_type == "double"){
@@ -88,7 +82,7 @@ namespace MAN {
         else if (m_type == "data"){
             output<<"{type: \"" << m_type << "\", data: ";
             for (int i = 0; i < m_payload.get_size(); ++i) {
-                output<<"0x"<<(char32_t) m_payload.get_data()[i]<<" ";
+                output<<"0x"<<(char32_t)m_payload.get_data()[i]<<" ";
             }
             output<<"}";
         }
@@ -98,14 +92,12 @@ namespace MAN {
         return m_topic;
     }
 
-    const long long int& message::timestamp() const {
-        return m_timestamp;
+    long long int message::timestamp() const {
+        return (m_timestamp);
     }
 
-    const long long int MAN::message::get_time()const{
+    long long int sax::message::get_time()const{
         auto now = std::chrono::system_clock::now();
         return std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
     }
-
-
 }

@@ -10,23 +10,30 @@
 #include "message.h"
 #include "vector"
 #include <iterator>
+namespace saxion {
+    class broker {
+    public:
+        broker() = default;
 
-class broker {
-public:
-    broker() = default;
-    int post(const MAN::message &message);
-    MAN::message operator[](int id_num)const;
-    std::vector<std::string> list(const std::string& request);
-    std::vector<std::string> extract(const std::string& request);
-    std::vector<std::string> get(const std::string& request)const;
+        int post(const sax::message &message);
 
-    /* iterators */
-    std::map<MAN::message,int>::iterator begin(std::string str);
-    std::map<MAN::message,int>::iterator end();
-private:
-    int counter {0};
-    std::map<int,int> m_messages;
-};
+        sax::message operator[](int id_num) const;
 
+        std::vector<std::string> list(std::string request);
+
+        std::vector<sax::message> extract(std::string request);
+
+        std::vector<sax::message> get(std::string request);
+
+        /* iterators */
+        std::map<sax::message, int>::iterator begin(std::string str);
+
+        std::map<sax::message, int>::iterator end();
+
+    private:
+        int id{0};
+        std::map<int, sax::message> m_messages;
+    };
+}
 
 #endif //ASSIGNMENT_5_MESSAGE_BROKER_BROKER_H

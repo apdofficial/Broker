@@ -7,65 +7,62 @@
 
 #include "iostream"
 #include "variant"
-namespace DATA {
+#include "iostream"
+
+namespace saxion {
     class payload {
     private:
-
-        struct blob{
-            blob(const char* values, int length):
-                    arr{std::make_unique<char[]>(length)},
-                size{length}
-            {
-                std::copy(values, values+length, arr.get());
-            }
-
+        struct blob {
             std::unique_ptr<char[]> arr;
             int size;
 
-            blob(const blob& other):
-                arr{std::make_unique<char[]>(other.size)},
-                size{other.size}
-            {}
+            blob(const char *values, int length) :
+            arr{std::make_unique<char[]>(static_cast<size_t>(length))},
+            size{length}
+            {
+                std::copy(values, values + length, arr.get());
+            }
 
+            blob(const blob &other) :
+            arr{std::make_unique<char[]>(static_cast<size_t>(other.size))},
+            size{other.size}
+            {
+                std::copy(other.arr.get(), other.arr.get() + size, arr.get());
+            }
 
-            blob& operator=(const blob& other) {
-                if (this != &other) {
-                    if (size != other.size) {
-                        arr = std::make_unique<char[]>(other.size);
-                        size = other.size;
-                    }
-                    std::copy(other.arr.get(), other.arr.get()+other.size, arr.get());
+            blob &operator=(const blob &other) {
+                if ((this != &other) && (size != other.size)) {
+                    arr = std::make_unique<char[]>(static_cast<size_t>(other.size));
+                    size = other.size;
+                    std::copy(other.arr.get(), other.arr.get() + other.size, arr.get());
                 }
                 return *this;
             }
-
         };
 
-        std::variant<double, bool, std::string, blob> m_value; //, m_flag, m_description;
-//        std::unique_ptr<char[]> m_data;
+        std::variant<double, bool, std::string, blob> m_value;
     public:
-        /* copy ctor for all types */
-//        payload(const DATA::payload &o, const std::string &type);
 
         /* ctors for individual types */
-        payload(const char data[],const int& size);
-        explicit payload(const double& value);
-        explicit payload(const bool& flag);
-        explicit payload(const std::string& description);
-        explicit payload(std::string&& description);
+        explicit payload(const double &value);
 
-        /* overloaded copy  assignment operators */
-//        payload& operator=(const DATA::payload &o);
-//        payload& operator=(const char data[]);
+        explicit payload(const bool &flag);
 
-        /* destructor */
-        ~payload() = default;
+        explicit payload(const std::string &description);
+
+        explicit payload(std::string &&description);
+
+        payload(const char *data, int size);
 
         /* getters */
-        const std::string&  get_description() const;
-        const char* get_data() const;
+        const std::string &get_description() const;
+
+        const char *get_data() const;
+
         int get_size() const;
+
         double get_value() const;
+
         bool get_flag() const;
     };
 }

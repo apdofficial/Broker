@@ -11,16 +11,16 @@
 #include "ctime"
 #include <chrono>
 
-namespace MAN {
+namespace sax {
     class message {
     private:
-        DATA::payload m_payload;
+        saxion::payload m_payload;
         std::string m_topic;
         std::string m_type;
         long long int m_timestamp;
     public:
         /* copy ctor */
-        message(const MAN::message& o);
+        message(const sax::message& o);
 
         /* ctors for individual types */
         message(const std::string &topic, const std::string &description);
@@ -29,19 +29,19 @@ namespace MAN {
 
         message(const std::string &topic, bool flag);
         message(const std::string &topic, double value);
-        message(const std::string &topic,const char data[], int size);
+        message(const std::string &topic,const char *data, int size);
 
         /* overloaded  operators */
-        friend std::ostream& operator<<(std::ostream &os,const MAN::message &message1);
-        friend bool operator< (const MAN::message& lhs, const MAN::message& rhs);
+        friend std::ostream& operator<<(std::ostream &os,const sax::message &message1);
+        friend bool operator< (const sax::message& lhs, const sax::message& rhs);
 
         /* getters */
         const std::string payload_to_json()const;
         const std::string& topic() const;
-        const long long int& timestamp() const;
+        long long int timestamp() const;
 
         /* time getter */
-        const long long int get_time()const;
+        long long int get_time()const;
 
     };
 }
