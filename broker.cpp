@@ -22,13 +22,27 @@ MAN::message broker::operator[](int id_num) const{
         throw "no candidate was found under given ID";
 }
 
-std::vector<std::string> broker::list(const std::string &request){
+std::vector<std::string> broker::list(std::string request){
     std::vector<std::string> result = {};
+    bool wild = false;
+    if (request.back() == '*'){
+        wild = true;
+        request = request.substr(0, request.length() - 1);
+    }
+
+
+
     std::string temp1;
     if(request.find_last_of('*')) {
         temp1.append(request.substr(0, request.size() - 1));
     }
         for (auto&[key, val]:m_messages) {
+            auto& topic = key.topic();
+            if ( (wild && topic.find_first_of(request) == 0) ||
+                 (!wild && topic == request)){
+
+            }
+
             if(temp1 == key.topic().substr(0,temp1.size())) {
                 result.push_back(std::to_string(val) + " : " + key.topic());
             }
@@ -36,6 +50,7 @@ std::vector<std::string> broker::list(const std::string &request){
     return result;
 }
 
+// todo return messages
 std::vector<std::string> broker::extract(const std::string &request) {
     std::vector<std::string> result = {};
     std::string temp1;
@@ -54,6 +69,7 @@ std::vector<std::string> broker::extract(const std::string &request) {
     return result;
 }
 
+// todo return messages
 std::vector<std::string> broker::get(const std::string &request)const {
     std::vector<std::string> result = {};
     std::string temp1;

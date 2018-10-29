@@ -23,10 +23,13 @@ namespace MAN {
         message(const MAN::message& o);
 
         /* ctors for individual types */
-        message(const std::string &topic,const std::string &description);
-        message(const std::string &topic,const bool &flag);
-        message(const std::string &topic,const double &value);
-        message(const std::string &topic,const char data[],const int& size);
+        message(const std::string &topic, const std::string &description);
+        message(const std::string &topic, std::string &&description);
+        message(const std::string &topic, const char* description);
+
+        message(const std::string &topic, bool flag);
+        message(const std::string &topic, double value);
+        message(const std::string &topic,const char data[], int size);
 
         /* overloaded  operators */
         friend std::ostream& operator<<(std::ostream &os,const MAN::message &message1);

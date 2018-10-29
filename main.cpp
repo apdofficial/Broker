@@ -31,7 +31,7 @@ int main() {
     auto id_m7 = br.post(m7);
 
     try {
-        std::cout << "Using ID obtained from broker: ID: " << id_m7 << " message= " << br[id_m6]<<"\n";
+        std::cout << "Using ID obtained from broker: ID: " << id_m6 << " message= " << br[id_m6]<<"\n";
     }
     catch (char const* e){
         std::cout<<e<<"\n";

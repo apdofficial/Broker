@@ -25,7 +25,7 @@ public:
     std::map<MAN::message,int>::iterator end();
 private:
     int counter {0};
-    std::map<MAN::message,int> m_messages;
+    std::map<int,int> m_messages;
 };
 
 

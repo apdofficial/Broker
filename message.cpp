@@ -11,34 +11,49 @@
 
 namespace MAN {
 
-    message::message(const std::string &topic, const std::string &description):
+    message::message(const std::string &topic, const std::string& description):
     m_payload {description},
     m_topic{topic},
     m_type {"string"},
     m_timestamp {get_time()}
     {}
 
-    message::message(const std::string &topic, const bool &flag):
+
+
+    message::message(const std::string &topic, std::string&& description):
+    m_payload{std::move(description)},
+    m_topic{topic},
+    m_type {"string"},
+    m_timestamp {get_time()}
+    {
+
+    }
+
+    message::message(const std::string &topic, const char* description):
+            message(topic, std::string(description))
+    { }
+
+    message::message(const std::string &topic, bool flag):
     m_payload {flag},
     m_topic{topic},
     m_type {"bool"},
     m_timestamp {get_time()}
     {}
 
-    message::message(const std::string &topic, const double &value):
+    message::message(const std::string &topic, double value):
     m_payload {value},
     m_topic{topic},
     m_type {"double"},
     m_timestamp {get_time()}
     {}
-    message::message(const std::string &topic,const char data[],const int& size):
+    message::message(const std::string &topic, const char data[], int size):
     m_payload {data, size},
     m_topic{topic},
     m_type {"data"},
     m_timestamp {get_time()}
     {}
 
-    std::ostream& operator<<(std::ostream &os,const MAN::message &message1) {
+    std::ostream& operator<<(std::ostream& os,const MAN::message& message1) {
         return os<<message1.m_timestamp<<" | "<<message1.m_topic<<" | "<< message1.payload_to_json();
     }
 
@@ -46,10 +61,10 @@ namespace MAN {
     m_timestamp {o.m_timestamp},
     m_topic {o.m_topic},
     m_type {o.m_type},
-    m_payload {o.m_payload,o.m_type}
+    m_payload {o.m_payload}
     {}
 
-    bool operator<(const MAN::message &lhs, const MAN::message &rhs) {
+    bool operator<(const MAN::message &lhs, const MAN::message& rhs) {
         return lhs.m_topic < rhs.m_topic;
     }
 
@@ -91,4 +106,6 @@ namespace MAN {
         auto now = std::chrono::system_clock::now();
         return std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
     }
+
+
 }
