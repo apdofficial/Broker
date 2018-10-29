@@ -14,7 +14,6 @@ namespace sax {
     public:
         message(const sax::message &o);
 
-
         message(const std::string &topic, const std::string &description);
 
         message(const std::string &topic, std::string &&description);
@@ -39,6 +38,16 @@ namespace sax {
 
         long long int get_time() const;
 
+    };
+    struct message_tem : public message{
+        template<class T, class U>
+        message_tem(const T &topic, const U &description):
+                message(topic,description)
+                {}
+        template<class T, class U, class Z>
+        message_tem(const T &topic, const U &description, Z size):
+                message(topic,description, size)
+                {}
     };
 }
 

@@ -7,7 +7,7 @@ namespace sax {
     message::message(const std::string &topic, const std::string &description) :
             m_payload{description},
             m_topic{topic},
-            m_type{"string"},
+            m_type{"templates"},
             m_timestamp{get_time()} {}
 
     message::message(const std::string &topic, std::string &&description) :
@@ -70,7 +70,6 @@ namespace sax {
         }
         return output.str();
     }
-
 
 
     const std::string &message::topic() const {

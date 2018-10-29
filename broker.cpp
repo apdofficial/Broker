@@ -71,6 +71,7 @@ namespace saxion {
                 return current;
             }
         }
+        throw std::logic_error("error");
     }
 
     std::map<int, sax::message>::const_iterator broker::end() {

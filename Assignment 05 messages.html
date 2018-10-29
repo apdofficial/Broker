@@ -3126,7 +3126,7 @@ h4:hover a { color: #333; } h5:hover a { color: #333; } h6:hover a { color: #333
 <p>Data associated with a <code>message</code> is the most interesting part. If you look at the examples of topics above, it’s obvious that it can be some numeric value (e.g. for <code>/reading/sens1/value</code>), a boolean flag (e.g. for <code>/status/health/sens1</code>) or a string (e.g. for <code>/status/diag/motor2/desc</code>). It means that either:</p>
 <ul>
 <li><p>a class that implements the <code>message</code> concept needs the ability to store any of those data types,</p></li>
-<li><p>there are a few classes, one for each data type, that all inherit from a common (abstract) ancestor.</p></li>
+<li><p>there are a few classes, one for each data type, that all inherit from a common (message_tem) ancestor.</p></li>
 </ul>
 <p>Obviously, the second approach is more flexible and you should rather focus on it.</p>
 <p>Once created, a message is immutable, so you should provide read-only access to its fields.</p>
