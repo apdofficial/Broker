@@ -33,7 +33,6 @@ namespace saxion {
     }
 
     const char *payload::get_data() const {
-
         if (std::holds_alternative<blob>(m_value)) {
             auto &data = std::get<blob>(m_value);
             return data.arr.get();

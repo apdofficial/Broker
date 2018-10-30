@@ -7,12 +7,13 @@ namespace sax {
     message::message(const std::string &topic, const std::string &description) :
             m_payload{description},
             m_topic{topic},
-            m_type{"templates"},
+            m_type{"string"},
             m_timestamp{get_time()} {}
 
     message::message(const std::string &topic, std::string &&description) :
             m_payload{std::move(description)},
             m_topic{topic},
+            m_type{"string"},
             m_timestamp{get_time()} {}
 
     message::message(const std::string &topic, const char *description) :

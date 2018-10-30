@@ -5,6 +5,7 @@
 #include "payload.h"
 
 namespace sax {
+
     class message {
     private:
         saxion::payload m_payload;
@@ -41,12 +42,12 @@ namespace sax {
     };
     struct message_tem : public message{
         template<class T, class U>
-        message_tem(const T &topic, const U &description):
-                message(topic,description)
+        message_tem(const T &topic, const U &value):
+                message(topic,value)
                 {}
         template<class T, class U, class Z>
-        message_tem(const T &topic, const U &description, Z size):
-                message(topic,description, size)
+        message_tem(const T &topic, const U &value, Z size):
+                message(topic,value, size)
                 {}
     };
 }
