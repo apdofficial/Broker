@@ -5,13 +5,14 @@
 #include <exception>
 int main() {
     char data[5]{4, 8, 16, 32, 64};
-    sax::message_tem m1{"/status/health/sens1", true};
-    sax::message_tem m2{"/status/health/motor1", false};
-    sax::message_tem m3{"/reading/value/sens1", 1.34};
-    sax::message_tem m4{"/reading/error/sens1", 0.07};
-    sax::message_tem m5{"/reading/value/motor1/current", 0.12};
-    sax::message_tem m6{"/status/diag/motor1/desc", "current too low"};
-    sax::message_tem m7{"/reading/value/imager", data, 5};
+    sax::message_tem m_template{"/status/health/sens1", true};
+    sax::message m1{"/status/health/sens1", true};
+    sax::message m2{"/status/health/motor1", false};
+    sax::message m3{"/reading/value/sens1", 1.34};
+    sax::message m4{"/reading/error/sens1", 0.07};
+    sax::message m5{"/reading/value/motor1/current", 0.12};
+    sax::message m6{"/status/diag/motor1/desc", "current too low"};
+    sax::message m7{"/reading/value/imager", data, 5};
 
     std::cout<<"\n*****printing messages using operator<<*****"<<"\n";
     std::cout << m1  << "\n";
@@ -46,19 +47,19 @@ int main() {
     }
 
     std::cout<<"\n*********USING extract(n)*****"<<"\n";
-    auto messages = br.extract("/reading/*");
-    for (auto& message : messages){
-        std::cout << message << "\n";
-    }
+//    auto messages = br.extract("/reading/*");
+//    for (auto& message : messages){
+//        std::cout << message << "\n";
+//    }
 
     std::cout<<"\n*********USING get(n)*********"<<"\n";
-    messages = br.get("/*");
+    auto messages = br.get("/*");
     for (auto& message : messages) {
         std::cout << message << "\n";
     }
 
     std::cout<<"\n*********USING iterator*********"<<"\n";
     for (auto iter = br.begin("/reading/*"); iter != br.end(); ++iter ){
-        std::cout<< iter->second.timestamp()<< " : " <<iter->second.topic() << ": "<< "\n";
+        std::cout<< iter->timestamp()<< " : " <<iter->topic() << ": "<< "\n";
     }
 }

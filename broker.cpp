@@ -62,19 +62,12 @@ namespace saxion {
         return result;
     }
 
-    std::map<int, sax::message>::const_iterator broker::begin(std::string request) {
-        if (request.back() == '*') {
-            request = request.substr(0, request.length() - 1);
-        }
-        for ( auto current = m_messages.begin(); current != m_messages.end(); ++current){
-            if (request == current->second.topic().substr(0, request.size())) {
-                return current;
-            }
-        }
-        throw std::logic_error("error");
+    broker::iterator broker::begin(std::string request) {
+        return iterator(m_messages.begin(), m_messages.end(), std::move(request));
     }
 
-    std::map<int, sax::message>::const_iterator broker::end() {
-        return m_messages.end();
+    broker::iterator broker::end() {
+        return iterator(m_messages.begin(), m_messages.end());
+
     }
 }
