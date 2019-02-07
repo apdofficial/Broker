@@ -1,6 +1,7 @@
 #ifndef ASSIGNMENT_5_MESSAGE_BROKER_PLAYLOAD_H
 #define ASSIGNMENT_5_MESSAGE_BROKER_PLAYLOAD_H
 
+#include <memory>
 #include "iostream"
 #include "variant"
 #include "iostream"

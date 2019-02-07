@@ -1,6 +1,7 @@
 #include "message.h"
 #include <sstream>
 #include <string>
+#include <chrono>
 
 namespace sax {
 
@@ -37,15 +38,15 @@ namespace sax {
             m_type{"data"},
             m_timestamp{get_time()} {}
 
-    std::ostream &operator<<(std::ostream &os, const sax::message &message1) {
-        return os << message1.m_timestamp << " | " << message1.m_topic << " | " << message1.payload_to_json();
-    }
-
     message::message(const sax::message &o) :
             m_timestamp{o.m_timestamp},
             m_topic{o.m_topic},
             m_type{o.m_type},
             m_payload{o.m_payload} {}
+
+            std::ostream &operator<<(std::ostream &os, const sax::message &message1) {
+        return os << message1.m_timestamp << " | " << message1.m_topic << " | " << message1.payload_to_json();
+    }
 
     bool operator<(const sax::message &lhs, const sax::message &rhs) {
         return lhs.m_topic < rhs.m_topic;

@@ -1,0 +1,76 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/broker.cpp
+vector
+-
+broker.h
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/broker.h
+map
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/map
+iostream
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/iostream
+
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/broker.h
+utility
+-
+map
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/map
+message.h
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/message.h
+vector
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/vector
+iterator
+-
+iterator
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/iterator
+
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/main.cpp
+iostream
+-
+vector
+-
+message.h
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/message.h
+broker.h
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/broker.h
+exception
+-
+
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/message.cpp
+message.h
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/message.h
+sstream
+-
+string
+-
+chrono
+-
+
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/message.h
+iostream
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/iostream
+payload.h
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/payload.h
+
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/payload.cpp
+payload.h
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/payload.h
+iostream
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/iostream
+
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/payload.h
+memory
+-
+iostream
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/iostream
+variant
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/variant
+iostream
+/Users/andrejpistek/Documents/Dokumenty/Saxion (Applied Science)/LED (ETI 2)/Quarter 1/C++/Cplusplus_Assignments/Assignment_5_Message_broker/iostream
+

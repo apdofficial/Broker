@@ -14,7 +14,7 @@ int main() {
     sax::message m6{"/status/diag/motor1/desc", "current too low"};
     sax::message m7{"/reading/value/imager", data, 5};
 
-    std::cout<<"\n*****printing messages using operator<<*****"<<"\n";
+    std::cout<<"\n***** printing messages using operator<< *****"<<"\n";
     std::cout << m1  << "\n";
     std::cout << m2  << "\n";
     std::cout << m3  << "\n";
@@ -32,7 +32,7 @@ int main() {
     auto id_m6 = br.post(m6);
     auto id_m7 = br.post(m7);
 
-    std::cout<<"\n*********USING operator[id]*******"<<"\n";
+    std::cout<<"\n********* USING operator[id] *******"<<"\n";
     try {
         std::cout << "Using ID obtained from broker: ID: " << id_m6 << " message= " << br[id_m6]<<"\n";
     }
@@ -40,26 +40,37 @@ int main() {
         std::cout<<e<<"\n";
     }
 
-    std::cout<<"\n*********USING list(n)*******"<<"\n";
+    std::cout<<"\n********* USING list(n) *******"<<"\n";
     auto listing = br.list("/*");
     for (auto& lst : listing){
         std::cout << lst << "\n";
     }
 
-    std::cout<<"\n*********USING extract(n)*****"<<"\n";
-//    auto messages = br.extract("/reading/*");
-//    for (auto& message : messages){
-//        std::cout << message << "\n";
-//    }
+    std::cout<<"\n********* USING extract(n) *****"<<"\n";
+    auto messages_e = br.extract("/reading/value/motor1/current");
+    for (auto& message : messages_e){
+        std::cout << message << "\n";
+    }
 
-    std::cout<<"\n*********USING get(n)*********"<<"\n";
+    std::cout<<"\n********* USING get(n) *********"<<"\n";
     auto messages = br.get("/*");
     for (auto& message : messages) {
         std::cout << message << "\n";
     }
 
-    std::cout<<"\n*********USING iterator*********"<<"\n";
+    std::cout<<"\n********* USING ++iterator *********"<<"\n";
     for (auto iter = br.begin("/reading/*"); iter != br.end(); ++iter ){
-        std::cout<< iter->timestamp()<< " : " <<iter->topic() << ": "<< "\n";
+        std::cout<<
+                iter->timestamp()<< " : " <<
+                iter->topic() << ": "<<
+                iter->payload_to_json()<< "\n";
+    }
+
+    std::cout<<"\n********* USING --iterator *********"<<"\n";
+    for (auto iter = br.end("/reading/*"); iter != br.begin(); --iter ){
+        std::cout<<
+                 iter->timestamp()<< " : " <<
+                 iter->topic() << ": "<<
+                 iter->payload_to_json()<< "\n";
     }
 }

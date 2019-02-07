@@ -1,3 +1,5 @@
+#include <utility>
+
 #ifndef ASSIGNMENT_5_MESSAGE_BROKER_BROKER_H
 #define ASSIGNMENT_5_MESSAGE_BROKER_BROKER_H
 
@@ -16,60 +18,88 @@ namespace saxion {
         using difference_type = std::make_signed_t<size_type>;
         using reference = sax::message &;
         using iterator_category = std::forward_iterator_tag;
+        using _iter = std::map<int, sax::message>::iterator;
     private:
-
         struct iter {
-
-            iter &move_to_next() {
-                for (; _current != _end; ++_current) {
-                    if (request == _current->second.topic().substr(0, request.size())) {
-                        break;
-                    }
-                }
-                return *this;
-            }
-
-
-            using _iter = std::map<int, sax::message>::iterator;
-            _iter _before_first;
-            _iter _current;
             _iter _end;
-            std::string request;
+            _iter _begin;
+            _iter _current;
+            std::string _request;
 
+            //ctor for begin("request")
             iter(_iter map_begin, _iter map_end, std::string str) :
-                    _current(std::move(map_begin)),
-                    _end(std::move(map_end)),
-                    request(std::move(str))
+                    _current(map_begin),
+                    _end(map_end),
+                    _request(std::move(str))
             {
-                if (request.back() == '*') {
-                    request = request.substr(0, request.length() - 1);
-                }
-                move_to_next();
+                if (_request.back() == '*') _request = _request.substr(0, _request.length() - 1);
+                move_to_next();//finds first mach ->_current
             }
 
-            iter(_iter map_begin, _iter map_end):
-                _current(std::move(map_end)),
-                _end(std::move(map_end)),
-                request()
-
+            //ctor for end("request")
+            iter(_iter map_begin, _iter map_end, std::string str, int i) :
+                    _current(map_end),
+                    _begin(map_begin),
+                    _request(std::move(str))
             {
+                --_current;//_current has to be decremented as end is pointing to one element after the map
+                if (_request.back() == '*') _request = _request.substr(0, _request.length() - 1);
+                move_to_prev();//finds last mach  ->_current
             }
+
+
+            //provides just beginning of the map
+            iter(_iter map_begin, int i) :
+                    _current(map_begin),
+                    _request() {}
+
+
+            //provides just end of the map
+            iter(_iter map_end) :
+                    _current(map_end),
+                    _request() {}
 
             reference operator*() const { return _current->second; }
 
             pointer operator->() const { return std::addressof(_current->second); }
 
-            iter &operator++() {
+
+            const iter &operator++() {
                 ++_current;
                 return move_to_next();
             }
 
-            iter operator++(int) {
+            const iter operator++(int) {
                 iter copy(*this);
                 ++(*this);
                 return copy;
             }
 
+            const iter &operator--() {
+                --_current;
+                return move_to_prev();
+            }
+
+            const iter operator--(int) {
+                iter copy(*this);
+                ++(*this);
+                return copy;
+            }
+
+            iter &move_to_next() {
+                for (; _current != _end; ++_current) {
+                    if (_request == _current->second.topic().substr(0, _request.size())) { break; }
+                }
+                return *this;
+            }
+
+            iter &move_to_prev() {
+                for (; _current != _begin; --_current) {
+
+                    if (_request == _current->second.topic().substr(0, _request.size())) { break; }
+                }
+                return *this;
+            }
 
             friend
             bool operator==(const iter &__x, const iter &__y) { return __x._current == __y._current; }
@@ -80,12 +110,13 @@ namespace saxion {
         };
 
     public:
-
-
-
         using iterator = iter;
 
         iterator begin(std::string request);
+
+        iterator begin();
+
+        iterator end(std::string request);
 
         iterator end();
 
@@ -101,15 +132,9 @@ namespace saxion {
 
         std::vector<sax::message> get(std::string request);
 
-//        std::map<int, sax::message>::const_iterator begin(std::string request);
-
-//        std::map<int, sax::message>::const_iterator end();
-
     private:
         int id{0};
         std::map<int, sax::message> m_messages;
-
-
     };
 }
 

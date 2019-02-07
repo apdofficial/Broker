@@ -36,13 +36,16 @@ namespace saxion {
             wild = true;
             request = request.substr(0, request.length() - 1);
         }
-        for (auto&[id, m_message]:m_messages) {
-            auto &topic = m_message.topic();
+        for (auto current = m_messages.begin(); current!= m_messages.end(); ){
+            auto &topic = current->second.topic();
             if ((wild && topic.find_first_of(request) == 0) || (!wild && topic == request)) {
-                result.push_back(m_message);
-                m_messages.erase(id);
+                result.push_back(std::move(current->second));
+                current = m_messages.erase(current);
+            }else{
+                ++current;
             }
         }
+
         return result;
     }
 
@@ -66,8 +69,15 @@ namespace saxion {
         return iterator(m_messages.begin(), m_messages.end(), std::move(request));
     }
 
-    broker::iterator broker::end() {
-        return iterator(m_messages.begin(), m_messages.end());
+    broker::iterator broker::begin() {
+        return iterator(m_messages.begin(),0);
+    }
 
+    broker::iterator broker::end(std::string request) {
+        return iterator(m_messages.begin(), m_messages.end(), std::move(request),0);
+    }
+
+    broker::iterator broker::end() {
+        return iterator(m_messages.end());
     }
 }
